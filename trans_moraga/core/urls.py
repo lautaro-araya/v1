@@ -2,5 +2,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    #path('',views.form, name='form'),
+    path('',views.crear_formulario, name='crear_formulario'),
 ]

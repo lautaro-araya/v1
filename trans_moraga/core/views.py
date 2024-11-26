@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from .models import FormularioInspeccion, Componente, Camiones
 from django.contrib.auth.models import User
 
-def form(request):
+def crear_formulario(request):
     if request.method == 'POST':
         # Obtener datos generales del formulario
         propietario = request.POST.get('propietario')
@@ -39,5 +39,5 @@ def form(request):
     # Obtener los usuarios que pueden ser encuestadores
     encuestadores = User.objects.all()
 
-    return render(request, 'crear_formulario.html', {'encuestadores': encuestadores})
+    return render(request, 'core/crear_formulario.html', {'encuestadores': encuestadores})
 
