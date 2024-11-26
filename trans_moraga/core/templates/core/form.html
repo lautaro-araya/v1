@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Inspección</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .form-section {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .form-section h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        table th {
+            background-color: #f2f2f2;
+        }
+        .add-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .add-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+        function addComponent(category) {
+            const container = document.getElementById(`components-${category}`);
+            const index = container.children.length;
+
+            const componentHTML = `
+                <tr>
+                    <td><input type="text" name="components[${category}][${index}][componente]" required></td>
+                    <td>
+                        <select name="components[${category}][${index}][inspeccion]" required>
+                            <option value="M">Malo</option>
+                            <option value="R">Regular</option>
+                            <option value="B">Bueno</option>
+                        </select>
+                    </td>
+                    <td><textarea name="components[${category}][${index}][observacion]"></textarea></td>
+                </tr>
+            `;
+            container.insertAdjacentHTML("beforeend", componentHTML);
+        }
+    </script>
+</head>
+<body>
+    <h1>Formulario de Inspección</h1>
+
+    <!-- Información General -->
+    <form method="POST" action="{% url 'crear_formulario' %}">
+        {% csrf_token %}
+        <div class="form-section">
+            <h3>Datos Generales</h3>
+            <div class="form-group">
+                <label for="propietario">Propietario</label>
+                <input type="text" id="propietario" name="propietario" required>
+            </div>
+            <div class="form-group">
+                <label for="encuestador">Encuestador</label>
+                <select id="encuestador" name="encuestador" required>
+                    {% for user in encuestadores %}
+                        <option value="{{ user.id }}">{{ user.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="ubicacion">Ubicación del Equipo</label>
+                <input type="text" id="ubicacion" name="ubicacion" required>
+            </div>
+        </div>
+
+        <!-- Información del Vehículo -->
+        <div class="form-section">
+            <h3>Datos del Vehículo</h3>
+            <div class="form-group">
+                <label for="sigla_base">Sigla Base</label>
+                <input type="text" id="sigla_base" name="sigla_base">
+            </div>
+            <div class="form-group">
+                <label for="patente">Patente</label>
+                <input type="text" id="patente" name="patente">
+            </div>
+            <div class="form-group">
+                <label for="modelo">Modelo</label>
+                <input type="text" id="modelo" name="modelo">
+            </div>
+            <div class="form-group">
+                <label for="anio">Año</label>
+                <input type="number" id="anio" name="anio" min="1970" max="{{ current_year }}">
+            </div>
+            <div class="form-group">
+                <label for="marca">Marca</label>
+                <input type="text" id="marca" name="marca">
+            </div>
+        </div>
+
+        <!-- Componentes Externos -->
+        <div class="form-section">
+            <h3>Componentes Externos</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Componente</th>
+                        <th>Inspección</th>
+                        <th>Observaciones</th>
+                    </tr>
+                </thead>
+                <tbody id="components-externos"></tbody>
+            </table>
+            <button type="button" class="add-button" onclick="addComponent('externos')">Agregar Componente</button>
+        </div>
+
+        <!-- Motor -->
+        <div class="form-section">
+            <h3>Motor</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Componente</th>
+                        <th>Inspección</th>
+                        <th>Observaciones</th>
+                    </tr>
+                </thead>
+                <tbody id="components-motor"></tbody>
+            </table>
+            <button type="button" class="add-button" onclick="addComponent('motor')">Agregar Componente</button>
+        </div>
+
+        <!-- Sistema Eléctrico -->
+        <div class="form-section">
+            <h3>Sistema Eléctrico</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Componente</th>
+                        <th>Inspección</th>
+                        <th>Observaciones</th>
+                    </tr>
+                </thead>
+                <tbody id="components-electrico"></tbody>
+            </table>
+            <button type="button" class="add-button" onclick="addComponent('electrico')">Agregar Componente</button>
+        </div>
+
+        <!-- Botón de Enviar -->
+        <button type="submit">Guardar Formulario</button>
+    </form>
+</body>
+</html>
