@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Inspección</title>
+</head>
+<body>
+    <h1>Formulario de Inscripcción de Camiones</h1>
+    <form method="POST" action="{% url 'crear_formulario' %}">
+        <div class="form-section">
+            <h3>Datos del Vehículo</h3>
+            <div class="form-group">
+                <label for="sigla_base">Sigla Base</label>
+                <input type="text" id="sigla_base" name="sigla_base">
+            </div>
+            <div class="form-group">
+                <label for="patente">Patente</label>
+                <input type="text" id="patente" name="patente">
+            </div>
+            <div class="form-group">
+                <label for="modelo">Modelo</label>
+                <input type="text" id="modelo" name="modelo">
+            </div>
+            <div class="form-group">
+                <label for="anio">Año</label>
+                <input type="number" id="anio" name="anio" min="1970" max="{{ current_year }}">
+            </div>
+            <div class="form-group">
+                <label for="marca">Marca</label>
+                <input type="text" id="marca" name="marca">
+            </div>
+        </div>
+        <button type="submit">Guardar Camión</button>
+    </form>

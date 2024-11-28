@@ -1,72 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link rel="stylesheet" href="{% static 'core/style.css'%} ">
+
     <title>Formulario de Inspección</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-        }
-        h1, h2, h3 {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        .form-section {
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            padding: 15px;
-            border-radius: 5px;
-        }
-        .form-section h3 {
-            margin-bottom: 15px;
-            font-size: 18px;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 5px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-        table th, table td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
-        }
-        table th {
-            background-color: #f2f2f2;
-        }
-        .add-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .add-button:hover {
-            background-color: #45a049;
-        }
-    </style>
     <script>
         function addComponent(category) {
             const container = document.getElementById(`components-${category}`);
@@ -92,9 +35,10 @@
 <body>
     <h1>Formulario de Inspección</h1>
 
-    <!-- Información General -->
+    
     <form method="POST" action="{% url 'crear_formulario' %}">
         {% csrf_token %}
+        <!-- Información General -->
         <div class="form-section">
             <h3>Datos Generales</h3>
             <div class="form-group">
@@ -114,32 +58,16 @@
                 <input type="text" id="ubicacion" name="ubicacion" required>
             </div>
         </div>
-
-        <!-- Información del Vehículo -->
-        <div class="form-section">
-            <h3>Datos del Vehículo</h3>
-            <div class="form-group">
-                <label for="sigla_base">Sigla Base</label>
-                <input type="text" id="sigla_base" name="sigla_base">
-            </div>
-            <div class="form-group">
-                <label for="patente">Patente</label>
-                <input type="text" id="patente" name="patente">
-            </div>
-            <div class="form-group">
-                <label for="modelo">Modelo</label>
-                <input type="text" id="modelo" name="modelo">
-            </div>
-            <div class="form-group">
-                <label for="anio">Año</label>
-                <input type="number" id="anio" name="anio" min="1970" max="{{ current_year }}">
-            </div>
-            <div class="form-group">
-                <label for="marca">Marca</label>
-                <input type="text" id="marca" name="marca">
-            </div>
+        <!-- Selección Camión -->
+        <div class="form-group">
+            <label for="camion">Camión</label>
+            <select id="camion" name="camion" class="camion-select" required>
+                <option value="" disabled selected>Seleccione un camión...</option>
+                {% for camion in camiones %}
+                    <option value="{{ camion.id }}">{{ camion.patente }} - {{ camion.modelo }} ({{ camion.marca }})</option>
+                {% endfor %}
+            </select>
         </div>
-
         <!-- Componentes Externos -->
         <div class="form-section">
             <h3>Componentes Externos</h3>
@@ -155,7 +83,6 @@
             </table>
             <button type="button" class="add-button" onclick="addComponent('externos')">Agregar Componente</button>
         </div>
-
         <!-- Motor -->
         <div class="form-section">
             <h3>Motor</h3>
