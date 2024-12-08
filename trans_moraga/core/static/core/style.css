@@ -1,3 +1,7 @@
+* {
+    /*outline: 1px solid red;*/
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
@@ -58,4 +62,72 @@ table th {
 }
 .add-button:hover {
     background-color: #45a049;
+}
+
+.login-container {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Centra el texto dentro del contenedor */
+}
+
+.login-container h1{
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-container form{
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 80%;
+    max-width: 280px;
+    padding: 10px;
+    margin: 2px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease;
+}
+
+.login-container input[type="text"]:focus,
+.login-container input[type="password"]:focus {
+    border-color: #007BFF; /* Color del borde al enfocar */
+    outline: none;
+}
+
+.login-container button {
+    width: 45%;
+    max-width: 280px;
+    padding: 10px;
+    margin-top: 1px;
+    background-color: #007BFF; /* Color de fondo */
+    color: #fff; /* Color del texto */
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.login-container button:hover {
+    background-color: #7abaff; /* Color del botón al pasar el ratón */
+}
+
+.login-container button:active {
+    background-color: #004085; /* Color al hacer clic */
 }

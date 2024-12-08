@@ -4,7 +4,7 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="{% static 'core/style.css' %}"> -->
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
     <title>Iniciar Sesión</title>
 </head>
 <body>
@@ -12,9 +12,8 @@
         <h1>Iniciar Sesión</h1>
         <form method="POST">
             {% csrf_token %}
-            <!-- Permitir ingresar correo o run profesional -->
-            <input type="text" name="username" placeholder="Correo o RUN profesional" required>
-            <input type="password" name="password" placeholder="Contraseña" required>
+            <p><input type="text" name="username" placeholder="Usuario" required></p>
+            <p></p><input type="password" name="password" placeholder="Contraseña" required></p>
             {% if errors.autenticación %}
               <div class="error">{{ errors.autenticación }}</div>
             {% endif %}
