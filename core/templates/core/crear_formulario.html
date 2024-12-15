@@ -2,120 +2,71 @@
 <html lang="es">
 {% load static %}
 <head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <link rel="stylesheet" href="{% static 'core/style.css'%} ">
-
     <title>Formulario de Inspección</title>
-    <script>
-        function addComponent(category) {
-            const container = document.getElementById(`components-${category}`);
-            const index = container.children.length;
-
-            const componentHTML = `
-                <tr>
-                    <td><input type="text" name="components[${category}][${index}][componente]" required></td>
-                    <td>
-                        <select name="components[${category}][${index}][inspeccion]" required>
-                            <option value="M">Malo</option>
-                            <option value="R">Regular</option>
-                            <option value="B">Bueno</option>
-                        </select>
-                    </td>
-                    <td><textarea name="components[${category}][${index}][observacion]"></textarea></td>
-                </tr>
-            `;
-            container.insertAdjacentHTML("beforeend", componentHTML);
-        }
-    </script>
 </head>
 <body>
     <h1>Formulario de Inspección</h1>
-
-    
     <form method="POST" action="{% url 'crear_formulario' %}">
         {% csrf_token %}
-        <!-- Información General -->
-        <div class="form-section">
-            <h3>Datos Generales</h3>
-            <div class="form-group">
-                <label for="propietario">Propietario</label>
-                <input type="text" id="propietario" name="propietario" required>
-            </div>
-            <div class="form-group">
-                <label for="encuestador">Encuestador</label>
-                <select id="encuestador" name="encuestador" required>
-                    {% for user in encuestadores %}
-                        <option value="{{ user.id }}">{{ user.username }}</option>
+        
+        <!-- Datos generales -->
+        <h3>Datos Generales</h3>
+        
+        <label for="encuestador">Encuestador:</label>
+        <select id="encuestador" name="encuestador" required>
+            {% for encuestador in encuestadores %}
+                <option value="{{ encuestador.id }}">{{ encuestador.nombre }} {{ encuestador.apellidos }}</option>
+            {% endfor %}
+        </select>
+        
+        <label for="camion">Camión:</label>
+        <select id="camion" name="camion" required>
+            {% for camion in camiones %}
+                <option value="{{ camion.id }}">{{ camion.patente }} - {{ camion.marca }}</option>
+            {% endfor %}
+        </select>
+        
+        <label for="ubicacion">Ubicación:</label>
+        <input type="text" id="ubicacion" name="ubicacion" placeholder="Ubicación" required>
+        
+        <!-- Componentes por Categoría -->
+        {% for categoria, componentes in categorias.items %}
+            <h3>{{ categoria }}</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Componente</th>
+                        <th>Inspección</th>
+                        <th>Observaciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for componente in componentes %}
+                        <tr>
+                            <td>
+                                <input type="hidden" name="components[{{ categoria }}][{{ forloop.counter0 }}][componente]" value="{{ componente.id }}">
+                                {{ componente.componente }}
+                            </td>
+                            <td>
+                                <select name="components[{{ categoria }}][{{ forloop.counter0 }}][inspeccion]" required>
+                                    <option value="M">Malo</option>
+                                    <option value="R">Regular</option>
+                                    <option value="B">Bueno</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="components[{{ categoria }}][{{ forloop.counter0 }}][observacion]" placeholder="Observaciones">
+                            </td>
+                        </tr>
                     {% endfor %}
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="ubicacion">Ubicación del Equipo</label>
-                <input type="text" id="ubicacion" name="ubicacion" required>
-            </div>
-        </div>
-        <!-- Selección Camión -->
-        <div class="form-group">
-            <label for="camion">Camión</label>
-            <select id="camion" name="camion" class="camion-select" required>
-                <option value="" disabled selected>Seleccione un camión...</option>
-                {% for camion in camiones %}
-                    <option value="{{ camion.id }}">{{ camion.patente }} - {{ camion.modelo }} ({{ camion.marca }})</option>
-                {% endfor %}
-            </select>
-        </div>
-        <!-- Componentes Externos -->
-        <div class="form-section">
-            <h3>Componentes Externos</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Componente</th>
-                        <th>Inspección</th>
-                        <th>Observaciones</th>
-                    </tr>
-                </thead>
-                <tbody id="components-externos"></tbody>
+                </tbody>
             </table>
-            <button type="button" class="add-button" onclick="addComponent('externos')">Agregar Componente</button>
-        </div>
-        <!-- Motor -->
-        <div class="form-section">
-            <h3>Motor</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Componente</th>
-                        <th>Inspección</th>
-                        <th>Observaciones</th>
-                    </tr>
-                </thead>
-                <tbody id="components-motor"></tbody>
-            </table>
-            <button type="button" class="add-button" onclick="addComponent('motor')">Agregar Componente</button>
-        </div>
-
-        <!-- Sistema Eléctrico -->
-        <div class="form-section">
-            <h3>Sistema Eléctrico</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Componente</th>
-                        <th>Inspección</th>
-                        <th>Observaciones</th>
-                    </tr>
-                </thead>
-                <tbody id="components-electrico"></tbody>
-            </table>
-            <button type="button" class="add-button" onclick="addComponent('electrico')">Agregar Componente</button>
-        </div>
-
-        <!-- Botón de Enviar -->
+        {% endfor %}
+        
         <button type="submit">Guardar Formulario</button>
     </form>
 </body>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Formulario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Detalle del Formulario</h1>
+
+    <h2>Información General</h2>
+    <p><strong>Propietario:</strong> {{ formulario.propietario.username }}</p>
+    <p><strong>Encuestador:</strong> {{ formulario.encuestador.nombre }} {{ formulario.encuestador.apellidos }}</p>
+    <p><strong>Fecha de Creación:</strong> {{ formulario.fecha_creacion|date:"d/m/Y H:i" }}</p>
+    <p><strong>Ubicación:</strong> {{ formulario.ubicacion }}</p>
+    <p><strong>Camión:</strong> {{ formulario.camion.sigla_base }} - {{ formulario.camion.patente }}</p>
+
+    <h2>Inspecciones de Componentes</h2>
+    {% if inspecciones_por_categoria %}
+        {% for categoria, inspecciones in inspecciones_por_categoria.items %}
+            <h3>{{ categoria }}</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Componente</th>
+                        <th>Estado</th>
+                        <th>Observación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for inspeccion in inspecciones %}
+                        <tr>
+                            <td>{{ inspeccion.componente.componente }}</td>
+                            <td>
+                                {% if inspeccion.inspeccion == "M" %}
+                                    Malo
+                                {% elif inspeccion.inspeccion == "R" %}
+                                    Regular
+                                {% elif inspeccion.inspeccion == "B" %}
+                                    Bueno
+                                {% endif %}
+                            </td>
+                            <td>{{ inspeccion.observacion }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+    {% else %}
+        <p>No hay inspecciones registradas para este formulario.</p>
+    {% endif %}
+</body>
+</html>

@@ -38,6 +38,7 @@ class Camiones(models.Model):
     def __str__(self):
         return self.sigla_base
 
+#categoria componente
 class Cat_com(models.Model):
     nombre =models.CharField(max_length=255)
 
@@ -59,12 +60,12 @@ class FormularioInspeccion(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     ubicacion = models.CharField(max_length=255)
     
-    
-    inspeccion = models.CharField(max_length=1, choices=[('M', 'Malo'), ('R', 'Regular'), ('B', 'Bueno')])
-    observacion = models.TextField(blank=True, null=True)
-    
     def __str__(self):
         return f"Formulario de {self.propietario},{self.fecha_creacion}"
 
-   
+class InspeccionComponente(models.Model):
+    formulario = models.ForeignKey('FormularioInspeccion', on_delete=models.CASCADE)
+    componente = models.ForeignKey('Componente', on_delete=models.CASCADE)
+    inspeccion = models.CharField(max_length=1, choices=[('M', 'Malo'), ('R', 'Regular'), ('B', 'Bueno')])
+    observacion = models.TextField(blank=True, null=True)
 
