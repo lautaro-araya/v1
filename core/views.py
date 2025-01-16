@@ -10,30 +10,41 @@ from django.contrib.auth import authenticate, login, logout
 def login_view(request):
     errors = {}
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
-        
-        # Validaciones automáticas de AuthenticationForm
+        form = AuthenticationForm(request, data=request.POST) 
         if form.is_valid():
             nombre_usuario = form.cleaned_data.get("username")
             contraseña = form.cleaned_data.get("password")
             user = authenticate(username=nombre_usuario, password=contraseña)
             if user is not None:
                 login(request, user)
-                return redirect('lista_formularios')
+                if hasattr(user, 'propietario'):
+                    return redirect('crear_formulario')
+                elif hasattr(user, 'encuestador'):
+                    return redirect('lista_formularios')
+                else:
+                    return redirect('default_home')
             else:
                 errors['autenticación'] = "*Usuario o contraseña incorrectos."
         else:
-            errors['autenticación'] = "Usuario o contraseña incorrectos."
-
+            errors['autenticación'] = "*Usuario o contraseña incorrectos."
     form = AuthenticationForm()
-
     return render(request, "core/login.html", {
         "form": form,
         "errors": errors,
     })
 
+from django.contrib.auth.decorators import user_passes_test
 
-#@login_required
+# Verifica si el usuario es propietario
+def es_propietario(user):
+    return hasattr(user, 'propietario')
+
+# Verifica si el usuario es encuestador
+def es_encuestador(user):
+    return hasattr(user, 'encuestador')
+
+@login_required
+@user_passes_test(es_propietario)
 def crear_formulario(request):
     if request.method == 'POST':
         # Procesar el formulario enviado
@@ -97,6 +108,7 @@ def crear_formulario(request):
     })
 
 
+@login_required
 def ver_formulario(request, formulario_id):
     formulario = FormularioInspeccion.objects.get(id=formulario_id)
     inspecciones = InspeccionComponente.objects.filter(formulario=formulario).select_related('componente__categoria')
@@ -113,6 +125,8 @@ def ver_formulario(request, formulario_id):
     }
     return render(request, 'core/ver_formulario.html', context)
 
+@login_required
+@user_passes_test(es_encuestador)
 def lista_formularios(request):
     # Obtener todos los formularios ordenados por fecha de creación
     formularios = FormularioInspeccion.objects.all().order_by('-fecha_creacion')
