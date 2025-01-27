@@ -1,0 +1,88 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+h1, h2, h3 {
+    color: #333;
+    text-align: center;
+}
+
+p {
+    font-size: 16px;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+}
+
+/* Tabla estilizada */
+table {
+    width: 100%;
+    max-width: 800px;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+table th {
+    background-color: #007BFF;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Responsividad */
+@media (max-width: 600px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tr {
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+
+    td {
+        text-align: right;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        font-weight: bold;
+        text-align: left;
+    }
+}
