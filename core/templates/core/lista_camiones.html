@@ -2,10 +2,7 @@
 {% block content %}
 {% load static %}
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'core/style_listaformularios.css' %}">
-    <title>Lista de Formularios</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -34,30 +31,34 @@
     </style>
 </head>
 <body>
-    <h1>Lista de Formularios de Inspección</h1>
-
+    <h1>Lista de Camiones</h1>
+    <a href="{% url 'ingresar_camion' %}">Agregar Camión</a>
     <table>
         <thead>
             <tr>
-                <th>Propietario</th>
-                <th>Encuestador</th>
-                <th>Fecha de Creación</th>
+                <th>Patente</th>
+                <th>Modelo</th>
+                <th>Año</th>
+                <th>Tipo de Camión</th>
+                <th>Marca</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            {% for formulario in formularios %}
+            {% for camion in camiones %}
                 <tr>
-                    <td>{{ formulario.propietario.username }}</td>
-                    <td>{{ formulario.encuestador.nombre }} {{ formulario.encuestador.apellidos }}</td>
-                    <td>{{ formulario.fecha_creacion|date:"d/m/Y H:i" }}</td>
+                    <td>{{ camion.patente }}</td>
+                    <td>{{ camion.modelo }}</td>
+                    <td>{{ camion.year }}</td>
+                    <td>{{ camion.tipo_camion }}</td>
+                    <td>{{ camion.marca }}</td>
                     <td>
-                        <a href="{% url 'ver_formulario' formulario.id %}">Ver Detalle</a>
+                        <a href="{% url 'ver_camion' camion.id %}">Ver Detalle</a>
                     </td>
                 </tr>
             {% empty %}
                 <tr>
-                    <td colspan="4">No hay formularios disponibles.</td>
+                    <td colspan="6">No hay camiones disponibles.</td>
                 </tr>
             {% endfor %}
         </tbody>

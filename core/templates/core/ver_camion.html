@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Camión</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .field {
+            margin-bottom: 10px;
+        }
+        .field label {
+            font-weight: bold;
+        }
+        .field span {
+            display: block;
+            margin-top: 5px;
+            color: #555;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007BFF;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Detalle del Camión</h1>
+        <div class="field">
+            <label>Patente:</label>
+            <span>{{ camion.patente }}</span>
+        </div>
+        <div class="field">
+            <label>Modelo:</label>
+            <span>{{ camion.modelo }}</span>
+        </div>
+        <div class="field">
+            <label>Año:</label>
+            <span>{{ camion.year }}</span>
+        </div>
+        <div class="field">
+            <label>Tipo de Camión:</label>
+            <span>{{ camion.tipo_camion }}</span>
+        </div>
+        <div class="field">
+            <label>Marca:</label>
+            <span>{{ camion.marca }}</span>
+        </div>
+        <div class="field">
+            <label>Sigla Base:</label>
+            <span>{{ camion.sigla_base }}</span>
+        </div>
+        <a href="{% url 'editar_camion' camion.id %}">Editar Camión</a>
+        <a href="{% url 'lista_camiones' %}">Volver a la Lista</a>
+    </div>
+</body>
+</html>

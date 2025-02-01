@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- fontawesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Styles static -->
+    <link rel="stylesheet" href="{% static 'core/styles_base.css' %}">
+
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+
+
+    <title>Easy Stock</title>
+</head>
+
+<body>
+    <style>
+      .text-dark{
+        --bs-text-opacity: 1;
+      }
+    </style>
+    <div class="father">
+        <!-- Sidebar -->
+        <div class="sidebar-container">
+          <div class="logo-container">
+              <h1>Transportes moraga</h1>
+          </div>
+          <div class="menu-analitics">
+            <!--   <h2>Estadisticas</h2>-->
+            <a href="/lista-formularios" class="d-block  p-2 border-0 {% if request.path == '/Ventas/products' %}active{% endif %}">
+              <i class="fa-solid fa-box-open pages"></i>Formularios 
+            </a>
+            <a href="/lista-camiones" class="d-block  p-2 border-0 {% if request.path == '' %}active{% endif %}">
+              <i class="fa-solid fa-truck-fast pages"></i>Camiones
+            </a>
+          </div>
+          <div class="menu-soporte">
+            <h2>{{user.username}}</h2>
+            <a href="{% url 'logout' %}">Cerrar sesión</a>
+          </div>
+        </div>
+        <!-- Fin sidebar -->
+
+        <div class="content">
+           <div>
+            {% block content %}
+            {% endblock %}  
+           </div>
+        </div>
+    </div>
+</body>
+
+</html>

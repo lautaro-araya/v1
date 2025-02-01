@@ -5,7 +5,11 @@ from .models import FormularioInspeccion, Encuestador, Camiones, Componente, Cat
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
+from .forms import CamionesForm, CamionForm
 
+def logout_view(request):
+    logout(request)
+    return redirect('login')
 
 def login_view(request):
     errors = {}
@@ -90,7 +94,7 @@ def crear_formulario(request):
                                 inspeccion=inspeccion,
                                 observacion=observacion
                             )
-        return redirect('lista_formularios')
+        return redirect('crear_formulario')
 
     # Preparar datos para el formulario
     encuestadores = Encuestador.objects.all()
@@ -134,3 +138,38 @@ def lista_formularios(request):
         'formularios': formularios,
     }
     return render(request, 'core/lista_formularios.html', context)
+
+@login_required
+def ver_camion(request, camion_id):
+    camion = get_object_or_404(Camiones, id=camion_id)  # Busca el camión por ID o devuelve 404
+    return render(request, 'core/ver_camion.html', {'camion': camion})
+
+@login_required
+def editar_camion(request, camion_id):
+    camion = get_object_or_404(Camiones, id=camion_id)  # Busca el camión o devuelve 404
+
+    if request.method == 'POST':
+        form = CamionForm(request.POST, instance=camion)  # Formulario con los datos del camión
+        if form.is_valid():
+            form.save()  # Guarda los cambios
+            return redirect('ver_camion', camion_id=camion.id)  # Redirige al detalle del camión
+    else:
+        form = CamionForm(instance=camion)  # Muestra el formulario prellenado
+
+    return render(request, 'core/editar_camion.html', {'form': form, 'camion': camion})
+
+@login_required
+def listar_camiones(request):
+    camiones = Camiones.objects.all()  # Obtiene todos los camiones
+    return render(request, 'core/lista_camiones.html', {'camiones': camiones})
+
+@login_required
+def ingresar_camion(request):
+    if request.method == 'POST':
+        form = CamionesForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_camiones')  # Cambia esto por la URL donde quieres redirigir al guardar
+    else:
+        form = CamionesForm()
+    return render(request, 'core/ingresar_camion.html', {'form': form})

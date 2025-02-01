@@ -54,9 +54,9 @@
                             </td>
                             <td>
                                 <select name="components[{{ categoria }}][{{ forloop.counter0 }}][inspeccion]" required>
-                                    <option value="M">Malo</option>
-                                    <option value="R">Regular</option>
                                     <option value="B">Bueno</option>
+                                    <option value="R">Regular</option>
+                                    <option value="M">Malo</option>
                                 </select>
                             </td>
                             <td>
@@ -72,3 +72,10 @@
     </form>
 </body>
 </html>
+<script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/static/service-worker.js")
+            .then(() => console.log("Service Worker registrado"))
+            .catch((err) => console.log("Error al registrar Service Worker:", err));
+    }
+</script>
