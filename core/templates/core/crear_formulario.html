@@ -6,9 +6,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'core/style_crearformulario.css' %}">
     <title>Formulario de Inspección</title>
 </head>
-<body>
+<body style="overflow-x: hidden;">
     <h1>Formulario de Inspección</h1>
     <form method="POST" action="{% url 'crear_formulario' %}">
         {% csrf_token %}
@@ -31,7 +32,7 @@
         </select>
         
         <label for="ubicacion">Ubicación:</label>
-        <input type="text" id="ubicacion" name="ubicacion" placeholder="Ubicación" required>
+        <input class="ubicacion" type="text" id="ubicacion" name="ubicacion" placeholder="Ubicación" required>
         
         <!-- Componentes por Categoría -->
         {% for categoria, componentes in categorias.items %}
@@ -53,13 +54,13 @@
                             </td>
                             <td>
                                 <select name="components[{{ categoria }}][{{ forloop.counter0 }}][inspeccion]" required>
-                                    <option value="M">Malo</option>
-                                    <option value="R">Regular</option>
                                     <option value="B">Bueno</option>
+                                    <option value="R">Regular</option>
+                                    <option value="M">Malo</option>
                                 </select>
                             </td>
                             <td>
-                                <input type="text" name="components[{{ categoria }}][{{ forloop.counter0 }}][observacion]" placeholder="Observaciones">
+                                <input class="observaciones" type="text" name="components[{{ categoria }}][{{ forloop.counter0 }}][observacion]" placeholder="Observaciones">
                             </td>
                         </tr>
                     {% endfor %}
@@ -71,3 +72,10 @@
     </form>
 </body>
 </html>
+<script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/static/service-worker.js")
+            .then(() => console.log("Service Worker registrado"))
+            .catch((err) => console.log("Error al registrar Service Worker:", err));
+    }
+</script>

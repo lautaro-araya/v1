@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'core/style_vercamion.css' %}">
+    <title>Detalle del Camión</title>
+
+</head>
+<body>
+    <div class="container">
+        <h1>Detalle del Camión</h1>
+        <div class="field">
+            <label>Patente:</label>
+            <span>{{ camion.patente }}</span>
+        </div>
+        <div class="field">
+            <label>Modelo:</label>
+            <span>{{ camion.modelo }}</span>
+        </div>
+        <div class="field">
+            <label>Año:</label>
+            <span>{{ camion.year }}</span>
+        </div>
+        <div class="field">
+            <label>Tipo de Camión:</label>
+            <span>{{ camion.tipo_camion }}</span>
+        </div>
+        <div class="field">
+            <label>Marca:</label>
+            <span>{{ camion.marca }}</span>
+        </div>
+        <div class="field">
+            <label>Sigla Base:</label>
+            <span>{{ camion.sigla_base }}</span>
+        </div>
+        <a href="{% url 'editar_camion' camion.id %}">Editar Camión</a>
+        <a href="{% url 'lista_camiones' %}">Volver a la Lista</a>
+    </div>
+</body>
+</html>

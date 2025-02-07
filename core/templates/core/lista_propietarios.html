@@ -2,39 +2,41 @@
 {% block content %}
 {% load static %}
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'core/style_listaformularios.css' %}">
-    <title>Lista de Formularios</title>
 </head>
-<div class="son">
-    <h1>Lista de Formularios de Inspección</h1>
-    <form method="GET" action="{% url 'lista_formularios' %}">
-        <input class="input-buscar" type="text" name="q" placeholder="Buscar formularios..." value="{{ query }}">
-        <button class="btn-buscar" type="submit">Buscar</button>
-    </form>
+<body>
+    <h1>Lista de Propietarios</h1>
+    <div class="top-bar">
+        <a class="btn-agregar-camiones" href="{% url 'ingresar_propietario' %}">Agregar Propietario</a>
+        <form method="GET" action="{% url 'listar_propietarios' %}">
+            <input class="input-buscar" type="text" name="q" placeholder="Buscar propietarios..." value="{{ query }}">
+            <button class="btn-buscar" type="submit">Buscar</button>
+        </form>
+    </div>
     <table>
         <thead>
             <tr>
-                <th>Propietario</th>
-                <th>Encuestador</th>
-                <th>Fecha de Creación</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Dierección</th>
+                <th>Teléfono</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            {% for formulario in page_obj %}
+            {% for propietario in page_obj %}
                 <tr>
-                    <td>{{ formulario.propietario.username }}</td>
-                    <td>{{ formulario.encuestador.nombre }} {{ formulario.encuestador.apellidos }}</td>
-                    <td>{{ formulario.fecha_creacion|date:"d/m/Y H:i" }}</td>
+                    <td>{{ propietario.nombre }}</td>
+                    <td>{{ propietario.apellidos }}</td>
+                    <td>{{ propietario.direccion }}</td>
+                    <td>{{ propietario.telefono_contacto }}</td>
                     <td>
-                        <a href="{% url 'ver_formulario' formulario.id %}">Ver Detalle</a>
+                        <a href="{% url 'editar_propietario' propietario.id %}">Editar</a>
                     </td>
                 </tr>
             {% empty %}
                 <tr>
-                    <td colspan="4">No hay formularios disponibles.</td>
+                    <td colspan="6">No hay propietarios disponibles.</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -52,5 +54,5 @@
             <a href="?page={{ page_obj.paginator.num_pages }}{% if query %}&q={{ query }}{% endif %}">Último</a>
         {% endif %}
     </div>
-</div>
+</body>
 {% endblock %}

@@ -6,7 +6,7 @@ import datetime
 class Encuestador(models.Model):
     nombre =  models.CharField(max_length=255, null=True, blank=True)
     apellidos =  models.CharField(max_length=255, null=True, blank=True)
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='encuestador')
     direccion = models.CharField(max_length=255, null=True, blank=True)
     telefono_contacto = models.CharField(max_length=20, null=True, blank=True)
     firma = models.ImageField(upload_to="firmas",verbose_name="Firma",null=True , default='Sin Firma' )
@@ -15,7 +15,7 @@ class Encuestador(models.Model):
 class Propietario(models.Model):
     nombre =  models.CharField(max_length=255, null=True, blank=True)
     apellidos =  models.CharField(max_length=255, null=True, blank=True)
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='propietario')
     direccion = models.CharField(max_length=255, null=True, blank=True)
     telefono_contacto = models.CharField(max_length=20, null=True, blank=True)
     firma = models.ImageField(upload_to="firmas",verbose_name="Firma",null=True , default='Sin Firma' )
