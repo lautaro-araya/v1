@@ -31,8 +31,11 @@
     </style>
 </head>
 <body>
-    <h1>Lista de Camiones</h1>
     <a href="{% url 'ingresar_camion' %}">Agregar Camión</a>
+    <form method="GET" action="{% url 'lista_camiones' %}">
+        <input type="text" name="q" placeholder="Buscar camiones..." value="{{ query }}">
+        <button type="submit">Buscar</button>
+    </form>
     <table>
         <thead>
             <tr>
@@ -45,7 +48,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for camion in camiones %}
+            {% for camion in page_obj %}
                 <tr>
                     <td>{{ camion.patente }}</td>
                     <td>{{ camion.modelo }}</td>
@@ -63,5 +66,18 @@
             {% endfor %}
         </tbody>
     </table>
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1{% if query %}&q={{ query }}{% endif %}">Primero</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">Anterior</a>
+        {% endif %}
+    
+        <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Siguiente</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if query %}&q={{ query }}{% endif %}">Último</a>
+        {% endif %}
+    </div>
 </body>
 {% endblock %}

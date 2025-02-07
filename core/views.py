@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from django.core.paginator import Paginator
 from collections import defaultdict
+import datetime
 from .models import FormularioInspeccion, Encuestador, Camiones, Componente, Cat_com, InspeccionComponente
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
@@ -132,10 +135,33 @@ def ver_formulario(request, formulario_id):
 @login_required
 @user_passes_test(es_encuestador)
 def lista_formularios(request):
-    # Obtener todos los formularios ordenados por fecha de creación
+    query = request.GET.get('q', '')  # Captura la búsqueda
     formularios = FormularioInspeccion.objects.all().order_by('-fecha_creacion')
+
+    if query:
+        # Intentar convertir la búsqueda en una fecha válida
+        try:
+            fecha_formateada = datetime.datetime.strptime(query, "%d/%m/%Y").strftime("%Y-%m-%d")
+        except ValueError:
+            fecha_formateada = None  # No es una fecha válida
+
+        # Filtrar por diferentes campos
+        formularios = formularios.filter(
+            Q(ubicacion__icontains=query) |  
+            Q(encuestador__nombre__icontains=query) |  
+            Q(propietario__username__icontains=query) |  
+            Q(camion__patente__icontains=query) |  
+            Q(camion__sigla_base__icontains=query) |
+            (Q(fecha_creacion__date=fecha_formateada) if fecha_formateada else Q())  # Buscar por fecha
+        )
+
+    paginator = Paginator(formularios, 6)  
+    page_number = request.GET.get('page')  
+    page_obj = paginator.get_page(page_number)  
+
     context = {
-        'formularios': formularios,
+        'page_obj': page_obj,
+        'query': query
     }
     return render(request, 'core/lista_formularios.html', context)
 
@@ -159,9 +185,29 @@ def editar_camion(request, camion_id):
     return render(request, 'core/editar_camion.html', {'form': form, 'camion': camion})
 
 @login_required
-def listar_camiones(request):
-    camiones = Camiones.objects.all()  # Obtiene todos los camiones
-    return render(request, 'core/lista_camiones.html', {'camiones': camiones})
+def listar_camiones(request): 
+    query = request.GET.get('q', '')
+    camiones = Camiones.objects.all() 
+    if query:
+        # Filtrar por diferentes campos
+        camiones = camiones.filter(
+            Q(patente__icontains=query) |  
+            Q(modelo__icontains=query) |  
+            Q(marca__icontains=query) |  
+            Q(year__icontains=query) |  
+            Q(tipo_camion__icontains=query) |  
+            Q(sigla_base__icontains=query)
+        )
+
+    paginator = Paginator(camiones, 6)  
+    page_number = request.GET.get('page')  
+    page_obj = paginator.get_page(page_number)  
+
+    context = {
+        'page_obj': page_obj,
+        'query': query
+    }
+    return render(request, 'core/lista_camiones.html', context)
 
 @login_required
 def ingresar_camion(request):
