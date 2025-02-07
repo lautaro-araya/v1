@@ -20,6 +20,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
 
+    <link rel="icon" href="{% static 'core/icon.svg' %}" type="image/png">
 
     <title>Transportes Moraga</title>
 </head>
@@ -31,18 +32,24 @@
       }
     </style>
     <div class="father">
+        <button id="toggleSidebar" class="menu-btn">
+          ☰
+        </button>
         <!-- Sidebar -->
-        <div class="sidebar-container">
+        <div id="sidebar" class="sidebar-container" class="sidebar-container">
           <div class="logo-container">
               <h1>Transportes moraga</h1>
           </div>
           <div class="menu-analitics">
             <!--   <h2>Estadisticas</h2>-->
-            <a href="/lista-formularios" class="d-block  p-2 border-0 {% if request.path == '/Ventas/products' %}active{% endif %}">
-              <i class="fa-solid fa-box-open pages"></i>Formularios 
+            <a href="/lista-formularios" class="d-block  p-2 border-0 {% if request.path == '/lista-formularios/' %}active{% endif %}">
+              <i class="fa-solid fa-paste pages"></i>Formularios 
             </a>
-            <a href="/lista-camiones" class="d-block  p-2 border-0 {% if request.path == '' %}active{% endif %}">
+            <a href="/lista-camiones" class="d-block  p-2 border-0 {% if request.path == '/lista-camiones/' %}active{% endif %}">
               <i class="fa-solid fa-truck-fast pages"></i>Camiones
+            </a>
+            <a href="/lista-propietarios" class="d-block  p-2 border-0 {% if request.path == '/lista-propietarios/' %}active{% endif %}">
+              <i class="fa-solid fa-user pages"></i>Propietarios
             </a>
           </div>
           <div class="menu-soporte">
@@ -58,5 +65,14 @@
         </div>
     </div>
 </body>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const toggleBtn = document.getElementById("toggleSidebar");
+    const sidebar = document.getElementById("sidebar");
 
+    toggleBtn.addEventListener("click", function () {
+      sidebar.classList.toggle("show");
+    });
+  });
+</script>
 </html>

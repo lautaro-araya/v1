@@ -5,38 +5,36 @@
     <link rel="stylesheet" type="text/css" href="{% static 'core/style_listaformularios.css' %}">
 </head>
 <body>
-    <h1>Lista de Camiones</h1>
-    <a href="{% url 'ingresar_camion' %}">Agregar Camión</a>
-    <form method="GET" action="{% url 'lista_camiones' %}">
-        <input type="text" name="q" placeholder="Buscar camiones..." value="{{ query }}">
+    <h1>Lista de Propietarios</h1>
+    <a href="{% url 'ingresar_propietario' %}">Agregar Camión</a>
+    <form method="GET" action="{% url 'listar_propietarios' %}">
+        <input type="text" name="q" placeholder="Buscar propietarioss..." value="{{ query }}">
         <button type="submit">Buscar</button>
     </form>
     <table>
         <thead>
             <tr>
-                <th>Patente</th>
-                <th>Modelo</th>
-                <th>Año</th>
-                <th>Tipo de Camión</th>
-                <th>Marca</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Dierección</th>
+                <th>Teléfono</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            {% for camion in page_obj %}
+            {% for propietario in page_obj %}
                 <tr>
-                    <td>{{ camion.patente }}</td>
-                    <td>{{ camion.modelo }}</td>
-                    <td>{{ camion.year }}</td>
-                    <td>{{ camion.tipo_camion }}</td>
-                    <td>{{ camion.marca }}</td>
+                    <td>{{ propietario.nombre }}</td>
+                    <td>{{ propietario.apellidos }}</td>
+                    <td>{{ propietario.direccion }}</td>
+                    <td>{{ propietario.telefono_contacto }}</td>
                     <td>
-                        <a href="{% url 'ver_camion' camion.id %}">Ver Detalle</a>
+                        <a href="{% url 'editar_propietario' propietario.id %}">Editar</a>
                     </td>
                 </tr>
             {% empty %}
                 <tr>
-                    <td colspan="6">No hay camiones disponibles.</td>
+                    <td colspan="6">No hay propietarios disponibles.</td>
                 </tr>
             {% endfor %}
         </tbody>
