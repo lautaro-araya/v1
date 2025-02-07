@@ -10,10 +10,34 @@ body {
     min-height: 100vh;
 }
 
+a{
+    text-decoration: none;
+}
+
 h1, h2, h3 {
     color: #333;
     text-align: center;
 }
+
+.btn-cancelar {
+    background-color: #dc3545;
+    color: #ffffff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-cancelar:hover {
+    background-color: #c82333;
+}
+
+.btn-cancelar:active {
+    background-color: #a71d2a;
+}
+
 
 p {
     font-size: 16px;

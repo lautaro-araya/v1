@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{% static 'core/style_verformulario.css' %}">
-    <title>Detalle del Formulario</title>
+    <link rel="icon" href="{% static 'core/icon.svg' %}" type="image/png">
+    <title>Transportes Moraga</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -33,6 +34,7 @@
     <h1>Detalle del Formulario</h1>
 
     <h2>Información General</h2>
+    <a class="btn-cancelar" href="{% url 'lista_formularios' %}">Atras</a>
     <p><strong>Propietario:</strong> {{ formulario.propietario.username }}</p>
     <p><strong>Encuestador:</strong> {{ formulario.encuestador.nombre }} {{ formulario.encuestador.apellidos }}</p>
     <p><strong>Fecha de Creación:</strong> {{ formulario.fecha_creacion|date:"d/m/Y H:i" }}</p>
@@ -73,5 +75,6 @@
     {% else %}
         <p>No hay inspecciones registradas para este formulario.</p>
     {% endif %}
+    <a style="margin-top: 20px;" class="btn-cancelar" href="{% url 'lista_formularios' %}">Atras</a>
 </body>
 </html>

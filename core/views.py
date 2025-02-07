@@ -8,7 +8,7 @@ from .models import FormularioInspeccion, Encuestador, Camiones, Componente, Cat
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from .forms import CamionesForm, CamionForm, PropietarioForm
+from .forms import CamionesForm, CamionForm, PropietarioForm, PropietarioRegistroForm
 
 def logout_view(request):
     logout(request)
@@ -262,11 +262,10 @@ def listar_propietarios(request):
 @login_required
 def ingresar_propietario(request):
     if request.method == 'POST':
-        form = PropietarioForm(request.POST)
+        form = PropietarioRegistroForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('listar_propietarios')
+            user = form.save()
+            return redirect('listar_propietarios')  # Cambia 'inicio' por la vista a la que quieres redirigir
     else:
-        form = PropietarioForm()
-    
+        form = PropietarioRegistroForm()
     return render(request, 'core/ingresar_propietario.html', {'form': form})

@@ -59,19 +59,18 @@ a:hover {
 /* Botón Agregar */
 .btn-agregar-camiones {
     display: inline-block;
-    background: linear-gradient(135deg, #FFD700, #E6B800);
-    color: #333;
+    background: #ffcc00;
+    color: #fff;
     font-weight: bold;
     padding: 10px 15px;
     border-radius: 5px;
     text-decoration: none;
-    transition: background 0.3s ease, transform 0.2s ease;
     margin-bottom: 15px;
     align-self: flex-start;
 }
 
 .btn-agregar-camiones:hover {
-    background: #ffd012;
+    background: #dbc220;
     color: #fff;
     transition: 0.15s;
     text-decoration: none;
@@ -85,6 +84,8 @@ form {
     gap: 10px;
     margin-bottom: 20px;
 }
+
+
 
 .input-buscar {
     padding: 10px;
