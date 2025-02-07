@@ -6,11 +6,13 @@
 </head>
 <body>
     <h1>Lista de Camiones</h1>
-    <a href="{% url 'ingresar_camion' %}">Agregar Camión</a>
-    <form method="GET" action="{% url 'lista_camiones' %}">
-        <input type="text" name="q" placeholder="Buscar camiones..." value="{{ query }}">
-        <button type="submit">Buscar</button>
-    </form>
+    <div class="top-bar">
+        <a class="btn-agregar-camiones" href="{% url 'ingresar_camion' %}">Agregar Camión</a>
+        <form method="GET" action="{% url 'lista_camiones' %}">
+            <input class="input-buscar" type="text" name="q" placeholder="Buscar camiones..." value="{{ query }}">
+            <button class="btn-buscar" type="submit">Buscar</button>
+        </form>
+    </div>
     <table>
         <thead>
             <tr>

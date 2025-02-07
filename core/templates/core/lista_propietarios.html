@@ -6,11 +6,13 @@
 </head>
 <body>
     <h1>Lista de Propietarios</h1>
-    <a href="{% url 'ingresar_propietario' %}">Agregar Camión</a>
-    <form method="GET" action="{% url 'listar_propietarios' %}">
-        <input type="text" name="q" placeholder="Buscar propietarioss..." value="{{ query }}">
-        <button type="submit">Buscar</button>
-    </form>
+    <div class="top-bar">
+        <a class="btn-agregar-camiones" href="{% url 'ingresar_propietario' %}">Agregar Propietario</a>
+        <form method="GET" action="{% url 'listar_propietarios' %}">
+            <input class="input-buscar" type="text" name="q" placeholder="Buscar propietarios..." value="{{ query }}">
+            <button class="btn-buscar" type="submit">Buscar</button>
+        </form>
+    </div>
     <table>
         <thead>
             <tr>

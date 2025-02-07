@@ -10,8 +10,8 @@
 <div class="son">
     <h1>Lista de Formularios de Inspección</h1>
     <form method="GET" action="{% url 'lista_formularios' %}">
-        <input type="text" name="q" placeholder="Buscar formularios..." value="{{ query }}">
-        <button type="submit">Buscar</button>
+        <input class="input-buscar" type="text" name="q" placeholder="Buscar formularios..." value="{{ query }}">
+        <button class="btn-buscar" type="submit">Buscar</button>
     </form>
     <table>
         <thead>
